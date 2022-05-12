@@ -1,0 +1,28 @@
+{{template "base" .}}
+
+<div>
+	{{$res := index .Data "logIn"}}
+
+	<form method="POST">
+		{{with .Form.Errors.Get "username"}}
+		<label class="text-danger">{{.}}</label>
+		{{end}}
+		<div>
+			<label for="username">username</label><br />
+			<input type="text" class="form-control form-control-lg {{with
+			.Form.Errors.Get "username"}} is-invalid{{end}}" id="username"
+			name="username" placeholder="Username" autocomplete="off" {{if
+			$res.Username}} value="{{$res.Username}}" {{end}} />
+		</div>
+		{{with .Form.Errors.Get "password"}}
+		<label class="text-danger">{{.}}</label>
+		{{end}}
+		<div>
+			<label for="password">password</label><br />
+			<input type="password" class="form-control form-control-lg {{with
+			.Form.Errors.Get "password"}} is-invalid{{end}}" id="password"
+			name="password" autocomplete="off" placeholder="Password">
+		</div>
+		<button type="submit">Sign in</button>
+	</form>
+</div>

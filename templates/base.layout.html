@@ -1,0 +1,18 @@
+{{define "base"}}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Doctor Booking Application</title>
+	</head>
+	<body>
+		<nav>
+			<div>{{block "header" .}} {{end}}</div>
+		</nav>
+		{{block "content" .}} {{end}}
+	</body>
+</html>
+
+{{end}}

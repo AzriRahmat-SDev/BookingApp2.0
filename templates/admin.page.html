@@ -1,0 +1,48 @@
+{{template "base" .}} {{define "content"}}
+
+<div class="container mt-5">
+	{{$res := index .Data "doctorList"}} {{if $res}}
+
+	<div class="row">
+		<p class="fs-1">Doctors Role Call</p>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Doctor Id</th>
+				<th scope="col">Name of Doctors</th>
+
+				<th scope="col">Delete Doctor</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{range $res}}
+			<tr>
+				<td>{{.Id}}</td>
+				<td>{{.NameOfDoctor}}</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" name="doctorId" value="{{.Id}}" />
+						<button class="btn btn-danger" type="submit">Delete</button>
+					</form>
+				</td>
+			</tr>
+			{{end}}
+		</tbody>
+	</table>
+
+	{{else}}
+
+	<div class="row">
+		<p class="fs-1">No Doctors</p>
+	</div>
+	{{end}}
+	<div class="container">
+		<div class="col">
+			<div class="row-cols-md-5">
+				<a class="btn btn-danger btn-lg" href="/adminBooking">Add New Doctor</a>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

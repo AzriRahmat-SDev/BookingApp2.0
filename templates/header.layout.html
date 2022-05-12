@@ -1,0 +1,36 @@
+{{define "header"}}
+
+{{$res := index .Data "user"}}
+{{if $res.Username}}
+
+<div class="mx-5">
+    <nav>
+        <div class="dropdown">
+            <button class="btn btn-danger  dropdown-toggle fs-4 mx-3" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                {{$res.Username}}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" style="z-index: 1000;" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item fs-5" href="/home"><strong>Home</strong></a></li>
+                <li><a class="dropdown-item fs-5" href="/bookings"><strong>Bookings</strong></a></li>
+
+                <li><a class="dropdown-item fs-5" href="/logout"><strong>Logout</strong></a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</nav>
+</div>
+{{end}}
+<div>
+	<nav>
+		<a href="/login">
+			<span>Log In</span>
+		</a>
+		<a href="/signup">
+			<span>Sign Up</span>
+		</a>
+	</nav>
+</div>
+
+{{end}}

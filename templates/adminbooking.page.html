@@ -1,0 +1,40 @@
+{{template "base" .}}
+<div class="container">
+	<div class="row mt-5">
+		<div class="mb-3">
+			<div class="col-5">
+				<a class="btn btn-danger" href="/admin">Back to admin</a>
+
+				<hr class="mb-3" style="color: gray" />
+
+				{{$res := index .Data "doctor"}}
+				<form method="post" novalidate>
+					{{with .Form.Errors.Get "name"}}
+					<label class="text-danger">{{.}}</label>
+					{{end}}
+					<div class="mb-3 form-floating">
+						<label for="name" class="form-label">Doctor's Name</label><br />
+						<input type="text" class="form-control form-control-lg {{with
+						.Form.Errors.Get "name"}} is-invalid{{end}}" id="name" name="name"
+						placeholder="name" autocomplete="off" {{if $res.Name}}
+						value="{{$res.Name}}" {{end}}>
+					</div>
+					{{with .Form.Errors.Get "Id"}}
+					<label class="text-danger">{{.}}</label>
+					{{end}}
+					<div class="mb-3 form-floating">
+						<label for="type" class="form-label">Doctor Id</label><br />
+						<input type="text" class="form-control form-control-lg {{with
+						.Form.Errors.Get "id"}} is-invalid{{end}}" id="id" name="id"
+						placeholder="id" autocomplete="off" {{if $res.Id}}
+						value="{{$res.Type}}" {{end}}>
+					</div>
+
+					<button type="submit" class="btn btn-danger btn-lg">
+						Add New Doctor
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

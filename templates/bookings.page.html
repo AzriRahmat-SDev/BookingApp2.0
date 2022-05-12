@@ -1,0 +1,50 @@
+{{template "base" .}} {{define "content"}}
+<div class="container mt-5">
+	{{$res := index .Data "bookinglist"}} {{if $res}}
+
+	<div class="row">
+		<p class="fs-1">My Bookings</p>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Booking Id</th>
+				<th scope="col">Booking Date</th>
+				<th scope="col">Doctor's Id</th>
+				<th scope="col">Doctor's Name</th>
+				<th scope="col">Cancel Booking</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{range $res}}
+			<tr>
+				<td>{{.BookingId}}</td>
+				<td>{{.Date}}</td>
+				<td>{{.CustomerId}}</td>
+				<td>{{.GetDoctorName}}</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" name="bookingID" value="{{.BookingId}}" />
+						<button class="btn btn-danger" type="submit">Cancel</button>
+					</form>
+				</td>
+			</tr>
+			{{end}}
+		</tbody>
+	</table>
+
+	{{else}}
+
+	<div class="row">
+		<p class="fs-1">No Bookings</p>
+		<div class="container">
+			<div class="col">
+				<div class="row-cols-md-5">
+					<a class="btn btn-danger btn-lg" href="/">Make booking</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{end}}
+</div>
+{{end}}

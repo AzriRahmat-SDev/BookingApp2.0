@@ -1,0 +1,49 @@
+{{template "base" .}} {{define "content"}}
+
+<div>
+	<h1>Book An Appointment Today</h1>
+</div>
+
+<div class="container">
+	<div class="row">
+		{{$res := index .Data "user"}} {{$v := index .Data "doctors"}} {{range $v}}
+		<div class="col" novalidate>
+			<div class="card-body">
+				<h5 class="card-title">{{.NameOfDoctor}}</h5>
+				<form method="POST">
+					<input type="hidden" name="doctorId" value="{{.Id}}" />
+					{{if $res.Username}}
+					<input
+						required
+						id="date"
+						name="date{{.Id}}"
+						class="form-control date"
+						placeholder="Date"
+					/>
+					<label class="form-check-label"></label>
+					<br />
+					<button class="btn btn-danger" type="submit">Book Me</button>
+				</form>
+				{{else}}
+				<a class="btn btn-danger" href="/login">Login To Book</a>
+				{{end}}
+			</div>
+		</div>
+		{{end}}
+	</div>
+</div>
+{{end}} {{define "script"}}
+<script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker.min.js"></script>
+<script>
+	const dateNow = Date.now()
+
+	{{range index .Data "doctors"}}
+	var elem = document.querySelector('input[name="date{{.Id}}"]');
+	var datepicker = new Datepicker(elem, {
+	  format:  "yyyy-mm-dd",
+	  minDate: dateNow
+	});
+	{{end}}
+</script>
+
+{{end}}
