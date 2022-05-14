@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
 
 func signUp(w http.ResponseWriter, r *http.Request) {
+	data := make(map[string]interface{})
 
 	if getUser(r) != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -23,9 +25,18 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 			Password:  []byte(r.FormValue("password")),
 		}
 		form := New(r.PostForm)
-
 		form.Required("firstname", "lastname", "username", "password")
+
+		if !IsFirstNameValid("firstname") {
+			form := New(r.Form)
+			form.Errors.Add("firstnameFailure", fmt.Sprintf("Firstname should contain from 3 - 40 characters"))
+			if err := Template(w, r, "signup.page.html", &TemplateData{Data: data, Form: form}); err != nil {
+				log.Print("Signup: ", err)
+			}
+			fmt.Println("Hi at line 36")
+		}
 		if !form.Valid() {
+			fmt.Println("Hi at line 40")
 			data := make(map[string]interface{})
 			data["register"] = newUser
 

@@ -23,15 +23,16 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 				log.Println("Home: ", err)
 			}
 			date := r.PostFormValue(fmt.Sprintf("date%d", doctorId))
+			//checks validity of date selected with the current date
 			if !bookingDateHandler(date) {
 				form := New(r.Form)
-				form.Errors.Add("date", fmt.Sprintf("Date selected has already passed... Please select another date"))
+				form.Errors.Add("date", fmt.Sprintf("Date selected has already passed! Please select another date"))
 				if err := Template(w, r, "home.page.html", &TemplateData{Data: data, Form: form}); err != nil {
 					log.Print("Home: ", err)
 				}
 				return
 			}
-
+			//checks user input date with respect of the doctors date of availability
 			if !bookingIsAvail(doctorId, date) {
 				form := New(r.Form)
 				form.Errors.Add("date", fmt.Sprintf("Date selected for \"%s\" has already been booked! Please select another date", GetDoctorById(doctorId).NameOfDoctor))
