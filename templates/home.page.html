@@ -2,6 +2,13 @@
 
 <div>
 	<h1>Book An Appointment Today</h1>
+	{{with .Form.Errors.Get "date"}}
+	<br />
+	<label class="text-danger">{{.}}</label>
+	{{end}} {{with .Form.Errors.Get "success"}}
+	<br />
+	<h3 class="text-succes">{{.}}</h3>
+	{{end}}
 </div>
 
 <div class="container">
@@ -11,9 +18,10 @@
 			<div class="card-body">
 				<h5 class="card-title">{{.NameOfDoctor}}</h5>
 				<form method="POST">
-					<input type="hidden" name="doctorId" value="{{.Id}}" />
+					<input type="hidden" name="doctorBookingForm" value="{{.Id}}" />
 					{{if $res.Username}}
 					<input
+						type="date"
 						required
 						id="date"
 						name="date{{.Id}}"

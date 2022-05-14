@@ -1,5 +1,7 @@
 package main
 
+import "time"
+
 type Booking struct {
 	DoctorId   int
 	CustomerId int
@@ -51,4 +53,13 @@ func DeleteBookingFromBookingList(id int) error {
 		}
 	}
 	return nil
+}
+
+func bookingDateHandler(date string) bool {
+	currentDate := time.Now()
+	currentDateString := currentDate.String()
+	if currentDateString > date {
+		return false
+	}
+	return true
 }

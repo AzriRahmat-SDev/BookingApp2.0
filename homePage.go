@@ -17,12 +17,21 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 		if r.Method == http.MethodPost {
 			r.ParseForm()
-			doctorId, err := strconv.Atoi(r.PostFormValue("doctorId"))
+			//checks Form Named <doctorBookingForm> as a valid form
+			doctorId, err := strconv.Atoi(r.PostFormValue("doctorBookingForm"))
 			if err != nil {
 				log.Println("Home: ", err)
 			}
-
 			date := r.PostFormValue(fmt.Sprintf("date%d", doctorId))
+			if !bookingDateHandler(date) {
+				form := New(r.Form)
+				form.Errors.Add("date", fmt.Sprintf("Date selected has already passed... Please select another date"))
+				if err := Template(w, r, "home.page.html", &TemplateData{Data: data, Form: form}); err != nil {
+					log.Print("Home: ", err)
+				}
+				return
+			}
+
 			if !bookingIsAvail(doctorId, date) {
 				form := New(r.Form)
 				form.Errors.Add("date", fmt.Sprintf("Date selected for \"%s\" has already been booked! Please select another date", GetDoctorById(doctorId).NameOfDoctor))
