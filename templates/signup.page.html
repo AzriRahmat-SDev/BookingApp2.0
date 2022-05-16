@@ -9,50 +9,55 @@
 
 				{{$res := index .Data "signUp"}}
 				<form method="post" novalidate>
+					<label for="firstname" class="form-label">First name</label><br />
 					<div class="mb-3 form-floating">
-						<label for="firstname" class="form-label">First name</label><br />
 						<input type="text" class="form-control form-control-lg {{with
 						.Form.Errors.Get "firstname"}} is-invalid{{end}}" id="firstname"
 						name="firstname" placeholder="firstname" autocomplete="off" {{if
 						$res.Firstname}} value="{{$res.Firstname}}" {{end}}> {{with
-						.Form.Errors.Get "firstnameFailure"}}
+						.Form.Errors.Get "firstname"}}<br />
 						<label class="text-danger">{{.}}</label>
+						<br />
 						{{end}}
 						<br />
-						{{with .Form.Errors.Get "firstname"}}
-						<label class="text-danger">{{.}}</label>
-						{{end}}
 					</div>
 
-					{{with .Form.Errors.Get "lastname"}}
-					<label class="text-danger">{{.}}</label>
-					{{end}}
 					<div class="mb-3 form-floating">
+						<label for="lastname" class="form-label">Last name</label><br />
 						<input type="text" class="form-control form-control-lg {{with
 						.Form.Errors.Get "lastname"}} is-invalid{{end}}" id="lastname"
 						name="lastname" placeholder="lastname" autocomplete="off" {{if
-						$res.Lastname}} value="{{$res.Lastname}}" {{end}}>
-						<label for="lastname" class="form-label">Last name</label>
+						$res.Lastname}} value="{{$res.Lastname}}" {{end}}> {{with
+						.Form.Errors.Get "lastname"}}<br />
+						<label class="text-danger">{{.}}</label>
+						<br />
+						{{end}}
+						<br />
 					</div>
 
-					{{with .Form.Errors.Get "username"}}
-					<label class="text-danger">{{.}}</label>
-					{{end}}
 					<div class="mb-3 form-floating">
+						<label for="username" class="form-label">Username</label><br />
 						<input type="text" class="form-control form-control-lg {{with
 						.Form.Errors.Get "username"}} is-invalid{{end}}" id="username"
 						name="username" placeholder="Username" autocomplete="off" {{if
-						$res.Username}} value="{{$res.Username}}" {{end}}>
-						<label for="username" class="form-label">Username</label>
+						$res.Username}} value="{{$res.Username}}" {{end}}> {{ with
+						.Form.Errors.Get "username"}}<br />
+						<label class="text-danger">{{.}}</label>
+						<br />
+						{{end}}
+						<br />
 					</div>
-					{{with .Form.Errors.Get "password"}}
-					<label class="text-danger">{{.}}</label>
-					{{end}}
+
 					<div class="mb-3 form-floating">
+						<label for="password" class="form-label">Password</label><br />
 						<input type="password" class="form-control form-control-lg {{with
 						.Form.Errors.Get "password"}} is-invalid{{end}}" id="password"
-						name="password" autocomplete="off" placeholder="Password">
-						<label for="password" class="form-label">Password</label>
+						name="password" autocomplete="off" placeholder="Password"> {{with
+						.Form.Errors.Get "password"}}<br />
+						<label class="text-danger">{{.}}</label>
+						<br />
+						{{end}}
+						<br />
 					</div>
 					<button type="submit" class="btn btn-danger btn-lg">
 						Create account

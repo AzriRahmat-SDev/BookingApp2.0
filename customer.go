@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"regexp"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -93,15 +92,4 @@ func (u *User) cancelBookings(id int) error {
 		}
 	}
 	return fmt.Errorf("booking ID was not found")
-}
-
-func IsFirstNameValid(username string) bool {
-	usernameRegex := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
-	re, _ := regexp.Compile(usernameRegex)
-	if len(username) < 40 && len(username) >= 0 && re.MatchString(username) {
-		fmt.Println("Returning false")
-		return false
-	}
-	fmt.Println("Returning true")
-	return true
 }

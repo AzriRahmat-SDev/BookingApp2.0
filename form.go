@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"net/url"
-	"strings"
+	"regexp"
 )
 
 // Form struct
@@ -32,13 +32,37 @@ func (e errors) Get(field string) string {
 }
 
 func (f *Form) Required(fields ...string) {
-	for _, field := range fields {
-		value := f.Get(field)
-		if strings.TrimSpace(value) == "" {
-			f.Errors.Add(field, fmt.Sprintf("%s is mandatory", field))
+	firstNameRegex := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
+	re, _ := regexp.Compile(firstNameRegex)
+	for i := 0; i < len(fields); i++ {
+		value := f.Get(fields[i])
+		if i == 0 || i == 1 {
+			if len(value) > 0 && len(value) < 40 && re.MatchString(value) {
+				return
+			} else {
+				f.Errors.Add(fields[i], fmt.Sprintf("%s should not be empty", fields[i]))
+			}
+		} else if i == 2 {
+			if len(value) < 8 {
+				f.Errors.Add(fields[i], fmt.Sprintf("%s should be at least 8 characters long", fields[i]))
+			}
+		}
+		if i == 3 {
+			if value == "" {
+				f.Errors.Add(fields[i], fmt.Sprintf("%s should not be empty", fields[i]))
+			}
 		}
 	}
 }
+
+// func (f *Form) Required(fields ...string) {
+// 	for _, field := range fields {
+// 		value := f.Get(field)
+// 		if strings.TrimSpace(value) == "" {
+// 			f.Errors.Add(field, fmt.Sprintf("%s is mandatory", field))
+// 		}
+// 	}
+// }
 
 func (f *Form) Valid() bool {
 	return len(f.Errors) == 0
