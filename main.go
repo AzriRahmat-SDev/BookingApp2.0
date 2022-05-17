@@ -42,7 +42,8 @@ func main() {
 
 	go func() {
 		log.Printf("Listening on port:%d", port)
-		if err := server.ListenAndServe(); err != nil {
+		if err := server.ListenAndServeTLS("/Users/azri-rahmat/Desktop/GoSchool/Assignment/BookingApp2.0/cert.pem", "/Users/azri-rahmat/Desktop/GoSchool/Assignment/BookingApp2.0/key.pem"); err != nil {
+			log.Println("Listening and serving")
 			if err != http.ErrServerClosed {
 				log.Fatal(err)
 			}

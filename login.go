@@ -1,15 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/microcosm-cc/bluemonday"
 	"golang.org/x/crypto/bcrypt"
 )
 
+//function logIn is a type of Handler(due to how parameters are written) that can be used in ListenAndServe as it accepts a handler type
+//http. denotes the call from the http package "net/http"
+//Therefore w of type http.ResponseWriter and r of type http.Request
 func logIn(w http.ResponseWriter, r *http.Request) {
+
+	p := bluemonday.UGCPolicy()
+
 	if getUser(r) != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
@@ -21,7 +27,7 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodPost {
 		user := User{
-			Username: r.PostFormValue("username"),
+			Username: p.Sanitize(r.PostFormValue("username")),
 			Password: []byte(r.PostFormValue("password")),
 		}
 
@@ -36,7 +42,6 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if !form.Valid() {
-			fmt.Println("Hello from line 38")
 			data := make(map[string]interface{})
 			data["login"] = user
 			if err := Template(w, r, "login.page.html", &TemplateData{
@@ -50,7 +55,6 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 
 		id, err := uuid.NewRandom()
 		if err != nil {
-			fmt.Println("Hello from line 53")
 			log.Println("Login:", err)
 		}
 		cookie := &http.Cookie{
@@ -63,13 +67,9 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 		u := Users[user.Username]
 
 		if u.isAdmin {
-			fmt.Println("Hello from line 66")
-			log.Println("In user.isAdmin")
 			http.Redirect(w, r, "/admin", http.StatusSeeOther)
 			return
 		}
-		//if the username and password is correct it will exe to the home page
-		fmt.Println("Hello from line 72")
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}

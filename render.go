@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
+	"html/template"
+	"log"
 	"net/http"
-	"text/template"
 )
 
 // TemplateData stores data to be used in Templates
@@ -16,8 +17,7 @@ type TemplateData struct {
 func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *TemplateData) error {
 
 	ts, err := template.ParseFiles(fmt.Sprintf("./templates/%s", tmpl), "./templates/base.layout.html", "./templates/header.layout.html")
-	fmt.Println(ts)
-	fmt.Println(tmpl)
+	log.Println("Logging: Redirecting to", tmpl)
 	if err != nil {
 		return fmt.Errorf("ParseTemplate: Unable to find template pages: %w", err)
 	}

@@ -8,6 +8,7 @@ func routes() http.Handler {
 
 	mux := http.NewServeMux()
 
+	//Handlefunc(pattern, handler)
 	mux.HandleFunc("/home", homePage)
 	mux.HandleFunc("/login", logIn)
 	mux.HandleFunc("/signup", signUp)
