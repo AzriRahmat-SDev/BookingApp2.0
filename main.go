@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GoInActionAssignment/internal/database"
 	"context"
 	"fmt"
 	"log"
@@ -19,13 +20,15 @@ const (
 
 func init() {
 	var wg sync.WaitGroup
+	log.SetPrefix("TRACE: ")
+	log.SetFlags(log.Lshortfile | log.Ltime | log.Lshortfile)
 	wg.Add(2)
 	go func() {
-		initDoctors()
+		database.InitDoctors()
 		wg.Done()
 	}()
 	go func() {
-		initCustomers()
+		database.InitCustomers()
 		wg.Done()
 	}()
 	wg.Wait()

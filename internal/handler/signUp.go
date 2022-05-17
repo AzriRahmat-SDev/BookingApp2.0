@@ -1,11 +1,14 @@
-package main
+package handler
 
 import (
+	"GoInActionAssignment/internal/database"
+	"GoInActionAssignment/internal/form"
+	"GoInActionAssignment/internal/render"
 	"log"
 	"net/http"
 )
 
-func signUp(w http.ResponseWriter, r *http.Request) {
+func SignUp(w http.ResponseWriter, r *http.Request) {
 
 	if getUser(r) != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -16,13 +19,13 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == http.MethodPost {
-		newUser := User{
+		newUser := database.User{
 			Firstname: r.FormValue("firstname"),
 			Lastname:  r.FormValue("lastname"),
 			Username:  r.FormValue("username"),
 			Password:  []byte(r.FormValue("password")),
 		}
-		form := New(r.PostForm)
+		form := form.New(r.PostForm)
 		form.Required("firstname", "lastname", "username", "password")
 
 		if form.ExistingUser() {
@@ -32,7 +35,7 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 		if !form.Valid() {
 			data := make(map[string]interface{})
 			data["register"] = newUser
-			if err := Template(w, r, "signup.page.html", &TemplateData{
+			if err := render.Template(w, r, "signup.page.html", &render.TemplateData{
 				Data: data,
 				Form: form,
 			}); err != nil {
@@ -40,7 +43,7 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 			}
 			return
 		}
-		if err := CreateNewUser(&newUser); err != nil {
+		if err := database.CreateNewUser(&newUser); err != nil {
 			log.Println("Registration: ", err)
 		}
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
@@ -48,9 +51,9 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	if err := Template(w, r, "signup.page.html", &TemplateData{
+	if err := render.Template(w, r, "signup.page.html", &render.TemplateData{
 		Data: make(map[string]interface{}),
-		Form: New(nil)}); err != nil {
+		Form: form.New(nil)}); err != nil {
 		log.Println("Registration: ", err)
 		return
 	}

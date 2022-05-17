@@ -1,6 +1,7 @@
-package main
+package render
 
 import (
+	"GoInActionAssignment/internal/form"
 	"fmt"
 	"html/template"
 	"log"
@@ -10,7 +11,7 @@ import (
 // TemplateData stores data to be used in Templates
 type TemplateData struct {
 	Data map[string]interface{}
-	Form *Form
+	Form *form.Form
 }
 
 // Template parses and exectues template by its template name

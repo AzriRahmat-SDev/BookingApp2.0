@@ -1,6 +1,8 @@
-package main
+package handler
 
 import (
+	"GoInActionAssignment/internal/database"
+	"GoInActionAssignment/internal/render"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,14 +10,14 @@ import (
 	"sync"
 )
 
-func admin(w http.ResponseWriter, r *http.Request) {
+func Admin(w http.ResponseWriter, r *http.Request) {
 
 	data := make(map[string]interface{})
 
 	user := getUser(r)
 
-	if user == nil || !user.isAdmin {
-		if err := Template(w, r, "restricted.page.html", &TemplateData{
+	if user == nil || !user.IsAdmin {
+		if err := render.Template(w, r, "restricted.page.html", &render.TemplateData{
 			Data: data,
 		}); err != nil {
 			log.Println("Admin: Erroring parsing template: ", err)
@@ -38,7 +40,7 @@ func admin(w http.ResponseWriter, r *http.Request) {
 			if err := recover(); err != nil {
 				fmt.Println("Admin: ", err)
 			}
-			DeleteBookingFromBookingList(id)
+			database.DeleteBookingFromBookingList(id)
 			wg.Done()
 		}(doctorId)
 
@@ -46,19 +48,19 @@ func admin(w http.ResponseWriter, r *http.Request) {
 			if err := recover(); err != nil {
 				fmt.Println("Admin: ", err)
 			}
-			DeleteBookingFromBookingList(id)
+			database.DeleteBookingFromBookingList(id)
 			wg.Done()
 		}(doctorId)
 
-		if err := DeleteDoctor(doctorId); err != nil {
+		if err := database.DeleteDoctor(doctorId); err != nil {
 			log.Println("Admin: Error deleting venue ", err)
 		}
 		wg.Wait()
 	}
 	data["user"] = user
-	data["doctorList"] = doctorList
+	data["doctorListAdmin"] = database.DoctorList
 
-	if err := Template(w, r, "admin.page.html", &TemplateData{
+	if err := render.Template(w, r, "admin.page.html", &render.TemplateData{
 		Data: data,
 	}); err != nil {
 		log.Println("Admin: Error parsing templates: ", err)

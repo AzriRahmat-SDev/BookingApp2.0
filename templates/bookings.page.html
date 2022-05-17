@@ -1,6 +1,6 @@
 {{template "base" .}} {{define "content"}}
 <div class="container mt-5">
-	{{$res := index .Data "bookinglist"}} {{if $res}}
+	{{$res := index .Data "bookingListUser"}} {{if $res}}
 
 	<div class="row">
 		<p class="fs-1">My Bookings</p>
@@ -20,11 +20,11 @@
 			<tr>
 				<td>{{.BookingId}}</td>
 				<td>{{.Date}}</td>
-				<td>{{.CustomerId}}</td>
+				<td>{{.DoctorId}}</td>
 				<td>{{.GetDoctorName}}</td>
 				<td>
 					<form method="POST">
-						<input type="hidden" name="bookingID" value="{{.BookingId}}" />
+						<input type="hidden" name="bookingId" value="{{.BookingId}}" />
 						<button class="btn btn-danger" type="submit">Cancel</button>
 					</form>
 				</td>

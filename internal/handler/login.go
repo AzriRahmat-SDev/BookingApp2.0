@@ -1,6 +1,9 @@
-package main
+package handler
 
 import (
+	"GoInActionAssignment/internal/database"
+	"GoInActionAssignment/internal/form"
+	"GoInActionAssignment/internal/render"
 	"log"
 	"net/http"
 
@@ -12,7 +15,7 @@ import (
 //function logIn is a type of Handler(due to how parameters are written) that can be used in ListenAndServe as it accepts a handler type
 //http. denotes the call from the http package "net/http"
 //Therefore w of type http.ResponseWriter and r of type http.Request
-func logIn(w http.ResponseWriter, r *http.Request) {
+func LogIn(w http.ResponseWriter, r *http.Request) {
 
 	p := bluemonday.UGCPolicy()
 
@@ -26,25 +29,26 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == http.MethodPost {
-		user := User{
+		user := database.User{
 			Username: p.Sanitize(r.PostFormValue("username")),
 			Password: []byte(r.PostFormValue("password")),
 		}
 
-		form := New(r.PostForm)
+		form := form.New(r.PostForm)
 		form.Required("username", "password")
 
 		if !form.ExistingUser() {
 			form.Errors.Add("username", "Username and/or password do not match")
 		} else {
-			if err := bcrypt.CompareHashAndPassword(Users[user.Username].Password, user.Password); err != nil {
+			if err := bcrypt.CompareHashAndPassword(database.Users[user.Username].Password, user.Password); err != nil {
 				form.Errors.Add("username", "Username and/or password do not match")
 			}
 		}
 		if !form.Valid() {
+			log.Println("Form is not valid")
 			data := make(map[string]interface{})
 			data["login"] = user
-			if err := Template(w, r, "login.page.html", &TemplateData{
+			if err := render.Template(w, r, "login.page.html", &render.TemplateData{
 				Data: data,
 				Form: form,
 			}); err != nil {
@@ -63,21 +67,24 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 			HttpOnly: true,
 		}
 		http.SetCookie(w, cookie)
-		Sessions[cookie.Value] = user.Username
-		u := Users[user.Username]
+		database.Sessions[cookie.Value] = user.Username
+		u := database.Users[user.Username]
 
-		if u.isAdmin {
+		if u.IsAdmin {
+			log.Println("Successful Admin login")
 			http.Redirect(w, r, "/admin", http.StatusSeeOther)
 			return
+		} else {
+			log.Println("Successful User login")
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
 		}
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-		return
 	}
 
-	if err := Template(w, r, "login.page.html",
-		&TemplateData{
+	if err := render.Template(w, r, "login.page.html",
+		&render.TemplateData{
 			Data: make(map[string]interface{}),
-			Form: New(nil)}); err != nil {
+			Form: form.New(nil)}); err != nil {
 		log.Println("Login: ", err)
 		return
 	}

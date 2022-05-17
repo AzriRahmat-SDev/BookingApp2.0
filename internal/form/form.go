@@ -1,6 +1,7 @@
-package main
+package form
 
 import (
+	"GoInActionAssignment/internal/database"
 	"fmt"
 	"net/url"
 	"regexp"
@@ -55,21 +56,12 @@ func (f *Form) Required(fields ...string) {
 	}
 }
 
-// func (f *Form) Required(fields ...string) {
-// 	for _, field := range fields {
-// 		value := f.Get(field)
-// 		if strings.TrimSpace(value) == "" {
-// 			f.Errors.Add(field, fmt.Sprintf("%s is mandatory", field))
-// 		}
-// 	}
-// }
-
 func (f *Form) Valid() bool {
 	return len(f.Errors) == 0
 }
 
 func (f *Form) ExistingUser() bool {
 	username := f.Get("username")
-	_, ok := Users[username]
+	_, ok := database.Users[username]
 	return ok
 }

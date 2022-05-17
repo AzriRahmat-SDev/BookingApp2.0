@@ -1,12 +1,13 @@
-package main
+package handler
 
 import (
+	"GoInActionAssignment/internal/database"
 	"fmt"
 	"net/http"
 	"time"
 )
 
-func logOutUser(w http.ResponseWriter, r *http.Request) {
+func LogOutUser(w http.ResponseWriter, r *http.Request) {
 	if getUser(r) == nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
@@ -14,7 +15,7 @@ func logOutUser(w http.ResponseWriter, r *http.Request) {
 	c, _ := r.Cookie("session")
 	start := time.Now()
 
-	delete(Sessions, c.Value)
+	delete(database.Sessions, c.Value)
 
 	c = &http.Cookie{
 		Name:   "session",

@@ -1,12 +1,14 @@
-package main
+package handler
 
 import (
+	"GoInActionAssignment/internal/database"
+	"GoInActionAssignment/internal/render"
 	"log"
 	"net/http"
 )
 
-func notFound(w http.ResponseWriter, r *http.Request) {
-	var user User
+func NotFound(w http.ResponseWriter, r *http.Request) {
+	var user database.User
 	if o := getUser(r); o != nil {
 		user = *o
 	}
@@ -16,7 +18,7 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 	case "/":
 		http.Redirect(w, r, "/home", http.StatusSeeOther)
 	default:
-		if err := Template(w, r, "notfound.page.html", &TemplateData{
+		if err := render.Template(w, r, "notfound.page.html", &render.TemplateData{
 			Data: data,
 		}); err != nil {
 			log.Println("Notfound: Error parsing template: ", err)

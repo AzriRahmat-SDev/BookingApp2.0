@@ -16,7 +16,7 @@
 		{{$res := index .Data "user"}} {{$v := index .Data "doctors"}} {{range $v}}
 		<div class="col" novalidate>
 			<div class="card-body">
-				<h5 class="card-title">{{.NameOfDoctor}}</h5>
+				<h5 class="card-title">{{.Name}}</h5>
 				<form method="POST">
 					<input type="hidden" name="doctorBookingForm" value="{{.Id}}" />
 					{{if $res.Username}}

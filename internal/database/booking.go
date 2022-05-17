@@ -1,32 +1,32 @@
-package main
+package database
 
 import "time"
 
 type Booking struct {
-	DoctorId   int
-	CustomerId int
 	BookingId  int
+	CustomerId int
+	DoctorId   int
 	Date       string
 }
 
 var BookingList map[int]Booking
-var bookingId int
+var BookingId int
 
 func init() {
 	BookingList = make(map[int]Booking)
 	list := []Booking{
-		{1, 1, 1, "2022-06-06"},
-		{2, 1, 1, "2022-11-07"},
-		{3, 1, 1, "2022-08-31"},
+		{1, 1, 111, "2021-03-31"},
+		{2, 1, 222, "2021-04-03"},
+		{3, 1, 333, "2021-04-02"},
 	}
 
 	for _, value := range list {
-		newBooking(value)
+		NewBooking(value)
 	}
 
 }
 
-func bookingIsAvail(doctorId int, date string) bool {
+func BookingIsAvail(doctorId int, date string) bool {
 	for _, value := range BookingList {
 		if value.DoctorId == doctorId && value.Date == date {
 			return false
@@ -35,15 +35,15 @@ func bookingIsAvail(doctorId int, date string) bool {
 	return true
 }
 
-func newBooking(value Booking) int {
-	bookingId++
-	value.BookingId = bookingId
-	BookingList[bookingId] = value
-	return bookingId
+func NewBooking(value Booking) int {
+	BookingId++
+	value.BookingId = BookingId
+	BookingList[BookingId] = value
+	return BookingId
 }
 
 func (b *Booking) GetDoctorName() string {
-	return GetDoctorById(b.BookingId).NameOfDoctor
+	return GetDoctorById(b.DoctorId).Name
 }
 
 func DeleteBookingFromBookingList(id int) error {
@@ -55,7 +55,7 @@ func DeleteBookingFromBookingList(id int) error {
 	return nil
 }
 
-func bookingDateHandler(date string) bool {
+func BookingDateHandler(date string) bool {
 	currentDate := time.Now()
 	currentDateString := currentDate.String()
 	if currentDateString > date {

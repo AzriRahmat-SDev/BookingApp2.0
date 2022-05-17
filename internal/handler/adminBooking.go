@@ -1,18 +1,21 @@
-package main
+package handler
 
 import (
+	"GoInActionAssignment/internal/database"
+	"GoInActionAssignment/internal/form"
+	"GoInActionAssignment/internal/render"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-func adminBooking(w http.ResponseWriter, r *http.Request) {
+func AdminBooking(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 
 	user := getUser(r)
 
-	if user == nil || !user.isAdmin {
-		if err := Template(w, r, "restricted.page.html", &TemplateData{
+	if user == nil || !user.IsAdmin {
+		if err := render.Template(w, r, "restricted.page.html", &render.TemplateData{
 			Data: data,
 		}); err != nil {
 			log.Println("Admin: Error parsing template: ", err)
@@ -25,9 +28,9 @@ func adminBooking(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == http.MethodPost {
-		form := New(r.PostForm)
-		newDoctor := Doctor{
-			NameOfDoctor: r.FormValue("name"),
+		form := form.New(r.PostForm)
+		newDoctor := database.Doctor{
+			Name: r.FormValue("name"),
 		}
 		form.Required("name", "id")
 
@@ -41,7 +44,7 @@ func adminBooking(w http.ResponseWriter, r *http.Request) {
 			data["doctor"] = newDoctor
 			data["user"] = user
 
-			if err := Template(w, r, "adminbooking.page.html", &TemplateData{
+			if err := render.Template(w, r, "adminbooking.page.html", &render.TemplateData{
 				Data: data,
 				Form: form,
 			}); err != nil {
@@ -50,14 +53,14 @@ func adminBooking(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		newDoctor.Id = id
-		addDoctor(&newDoctor)
+		database.AddDoctor(&newDoctor)
 		http.Redirect(w, r, "/admin", http.StatusSeeOther)
 		return
 	}
-	if err := Template(w, r, "adminBooking.page.html",
-		&TemplateData{
+	if err := render.Template(w, r, "adminBooking.page.html",
+		&render.TemplateData{
 			Data: make(map[string]interface{}),
-			Form: New(nil)}); err != nil {
+			Form: form.New(nil)}); err != nil {
 		log.Println("Admin: Venue: ", err)
 		return
 	}

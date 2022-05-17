@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ type User struct {
 	Password   []byte
 	Firstname  string
 	Lastname   string
-	isAdmin    bool
+	IsAdmin    bool
 	BookingId  []int
 }
 
@@ -21,18 +21,18 @@ var tpl *template.Template
 var Users = map[string]*User{}
 var Sessions = map[string]string{}
 
-func initCustomers() {
+func InitCustomers() {
 	list := []*User{
 		{
 			Username: "admin",
 			Password: []byte("1234"),
-			isAdmin:  true,
+			IsAdmin:  true,
 		}, {
 			Username:  "user",
 			Firstname: "John",
 			Lastname:  "Deo",
 			Password:  []byte("1234"),
-			isAdmin:   false,
+			IsAdmin:   false,
 			BookingId: []int{1, 2, 3, 4},
 		},
 	}
@@ -63,18 +63,18 @@ func CreateNewUser(u *User) error {
 	return nil
 
 }
-func initilizeUsers() {
+func InitilizeUsers() {
 	list := []*User{
 		{
 			Username: "admin",
 			Password: []byte("1234"),
-			isAdmin:  true,
+			IsAdmin:  true,
 		}, {
 			Username:  "user",
 			Firstname: "John",
 			Lastname:  "Doe",
 			Password:  []byte("1234"),
-			isAdmin:   false,
+			IsAdmin:   false,
 			BookingId: []int{1, 2, 3},
 		},
 	}
@@ -84,7 +84,7 @@ func initilizeUsers() {
 	}
 }
 
-func (u *User) cancelBookings(id int) error {
+func (u *User) CancelBookings(id int) error {
 	for result, value := range u.BookingId {
 		if value == id {
 			u.BookingId = append(u.BookingId[:result], u.BookingId[result+1:]...)
