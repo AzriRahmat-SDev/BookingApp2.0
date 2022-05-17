@@ -39,7 +39,7 @@ func CurrentBookings(w http.ResponseWriter, r *http.Request) {
 		usersBookings = append(usersBookings, database.BookingList[v])
 	}
 	data["bookingListUser"] = usersBookings
-	log.Println(data)
+	//log.Println(data)
 	if err := render.Template(w, r, "bookings.page.html", &render.TemplateData{Data: data, Form: form.New(nil)}); err != nil {
 		log.Println("Bookings: ", err)
 	}
