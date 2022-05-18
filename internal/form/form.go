@@ -32,6 +32,10 @@ func (e errors) Get(field string) string {
 	return e[field][0]
 }
 
+//Input validation of required fields
+//Checks for if fields are empty for firstname, lastname.
+//Username should be at least 8 characters long
+//Password should not be empty
 func (f *Form) Required(fields ...string) {
 	firstNameRegex := "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$"
 	re, _ := regexp.Compile(firstNameRegex)
@@ -60,6 +64,9 @@ func (f *Form) Valid() bool {
 	return len(f.Errors) == 0
 }
 
+//Check if User entered an Existing user
+//Returns False if the name exists in
+//Bool default value is false in Golang
 func (f *Form) ExistingUser() bool {
 	username := f.Get("username")
 	_, ok := database.Users[username]

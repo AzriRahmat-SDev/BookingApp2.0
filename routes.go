@@ -16,7 +16,7 @@ func routes() http.Handler {
 	mux.HandleFunc("/logout", handler.LogOutUser)
 	mux.HandleFunc("/bookings", handler.CurrentBookings)
 	mux.HandleFunc("/admin", handler.Admin)
-	mux.HandleFunc("/adminBooking", handler.AdminBooking)
+	mux.HandleFunc("/addDoctor", handler.AddDoctor)
 	mux.HandleFunc("/", handler.NotFound)
 
 	fs := http.FileServer(http.Dir("static"))

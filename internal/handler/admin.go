@@ -10,6 +10,9 @@ import (
 	"sync"
 )
 
+//Admin is a handler that parses a ResponseWriter and a Request from a POST.
+//Within this handler it checks if an admin user has already logged in and also handles
+//The removal of bookings and of staff members is done here
 func Admin(w http.ResponseWriter, r *http.Request) {
 
 	data := make(map[string]interface{})
@@ -36,6 +39,8 @@ func Admin(w http.ResponseWriter, r *http.Request) {
 		var wg sync.WaitGroup
 		wg.Add(2)
 
+		//Concurrency is added here as to ensure that the booking are updated
+		//if there are 2 users booking at the same time
 		go func(id int) {
 			if err := recover(); err != nil {
 				fmt.Println("Admin: ", err)
@@ -57,8 +62,9 @@ func Admin(w http.ResponseWriter, r *http.Request) {
 		}
 		wg.Wait()
 	}
+	//Data to be passed to the template
 	data["user"] = user
-	data["doctorListAdmin"] = database.DoctorList
+	data["doctorList"] = database.DoctorList
 
 	if err := render.Template(w, r, "admin.page.html", &render.TemplateData{
 		Data: data,

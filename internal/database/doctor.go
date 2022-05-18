@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+//This file provides the initialization of current Doctors
+//The Adding, Deleting and getDoctorById functions are here as hub to process data which is triggered in handlers
 type Doctor struct {
 	Id   int
 	Name string
@@ -20,7 +22,6 @@ func InitDoctors() {
 }
 func incrementDoctor() int {
 	max := 0
-	//max := len(doctorList)
 	for _, doctor := range DoctorList {
 		if doctor.Id > max {
 			max = doctor.Id

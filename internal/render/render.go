@@ -14,7 +14,7 @@ type TemplateData struct {
 	Form *form.Form
 }
 
-// Template parses and exectues template by its template name
+//To waypoint to which template are executed. If successfully executed, handler function will not trigger
 func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *TemplateData) error {
 
 	ts, err := template.ParseFiles(fmt.Sprintf("./templates/%s", tmpl), "./templates/base.layout.html", "./templates/header.layout.html")

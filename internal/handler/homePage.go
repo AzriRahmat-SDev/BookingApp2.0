@@ -26,7 +26,8 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 				log.Println("Home: ", err)
 			}
 			date := r.PostFormValue(fmt.Sprintf("date%d", doctorId))
-			//checks validity of date selected with the current date
+			//checks validity of date selected with the current date and if the response is false (from BookingDate handler), it will create a error msg
+			//notifying the user that the date selected is not a valid date
 			if !database.BookingDateHandler(date) {
 				form := form.New(r.Form)
 				form.Errors.Add("date", fmt.Sprintf("Date selected has already passed! Please select another date"))
@@ -35,7 +36,7 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 				}
 				return
 			}
-			//checks user input date with respect of the doctors date of availability
+			//checks user input date with respect of the doctor's date of availability
 			if !database.BookingIsAvail(doctorId, date) {
 				form := form.New(r.Form)
 				form.Errors.Add("date", fmt.Sprintf("Date selected for \"%s\" has already been booked! Please select another date", database.GetDoctorById(doctorId).Name))
@@ -45,6 +46,7 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
+			//When initial checks are cleared, newBooking are made and success message is displayed on the web page for the user
 			newBookings := database.Booking{
 				CustomerId: user.CustomerId,
 				DoctorId:   doctorId,
@@ -55,6 +57,7 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 			form := form.New(r.Form)
 			form.Errors.Add("success", fmt.Sprintf("Booking for \"%s\" on \"%s\" successful!", database.GetDoctorById(doctorId).Name, date))
 
+			//Execute the render.Template and receives a return value. if the value exist then it will log an error message
 			if err := render.Template(w, r, "home.page.html", &render.TemplateData{Data: data, Form: form}); err != nil {
 				log.Println("Home: ", err)
 			}

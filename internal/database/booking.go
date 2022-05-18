@@ -2,6 +2,8 @@ package database
 
 import "time"
 
+//This File Provide the necessary functions to carry out
+//Initialization,adding, deleting of available bookings needed from the handler functions
 type Booking struct {
 	BookingId  int
 	CustomerId int

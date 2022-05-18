@@ -9,7 +9,10 @@ import (
 	"strconv"
 )
 
-func AdminBooking(w http.ResponseWriter, r *http.Request) {
+//AddDoctor is a handler that parses a ResponseWriter and a Request from a POST.
+//Checks if admin user has already logged in
+//Addition of staff members are done here
+func AddDoctor(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 
 	user := getUser(r)
@@ -44,7 +47,7 @@ func AdminBooking(w http.ResponseWriter, r *http.Request) {
 			data["doctor"] = newDoctor
 			data["user"] = user
 
-			if err := render.Template(w, r, "adminbooking.page.html", &render.TemplateData{
+			if err := render.Template(w, r, "addDoctor.page.html", &render.TemplateData{
 				Data: data,
 				Form: form,
 			}); err != nil {
@@ -57,7 +60,7 @@ func AdminBooking(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/admin", http.StatusSeeOther)
 		return
 	}
-	if err := render.Template(w, r, "adminBooking.page.html",
+	if err := render.Template(w, r, "addDoctor.page.html",
 		&render.TemplateData{
 			Data: make(map[string]interface{}),
 			Form: form.New(nil)}); err != nil {

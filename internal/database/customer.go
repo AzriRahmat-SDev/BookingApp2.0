@@ -7,6 +7,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+//This File Provide the necessary functions to carry out
+//Initialization,adding, deleting of customer data needed from the handler functions
 type User struct {
 	CustomerId int
 	Username   string

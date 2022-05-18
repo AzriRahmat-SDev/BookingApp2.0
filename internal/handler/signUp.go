@@ -8,6 +8,11 @@ import (
 	"net/http"
 )
 
+//SignUp handles new user sign ups
+//It creates a new user via variables such as firstname, lastname, username and password
+//Input validation is used to ensure these field adhere to the conditions
+//Current existing user are checked against the new user.
+//Once passing the validation checks the handler will proceed to create a new user in the database
 func SignUp(w http.ResponseWriter, r *http.Request) {
 
 	if getUser(r) != nil {
