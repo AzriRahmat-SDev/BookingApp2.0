@@ -13,6 +13,7 @@ type Doctor struct {
 
 var DoctorList []*Doctor
 
+//Initialize Doctor name and Id
 func InitDoctors() {
 	DoctorList = []*Doctor{
 		{111, "Dr Idris"},
@@ -20,6 +21,8 @@ func InitDoctors() {
 		{333, "Dr Lim"},
 	}
 }
+
+//IncrementDoctor count when adding new doctors
 func incrementDoctor() int {
 	max := 0
 	for _, doctor := range DoctorList {
@@ -30,6 +33,7 @@ func incrementDoctor() int {
 	return max + 1
 }
 
+//Gets the Doctor Id by iterating through a Doctor list
 func GetDoctorById(ID int) *Doctor {
 	for i := 0; i < len(DoctorList); i++ {
 		if DoctorList[i].Id == ID {
@@ -45,6 +49,7 @@ func AddDoctor(value *Doctor) {
 	DoctorList = append(DoctorList, value)
 }
 
+//Delete chosen doctors
 func DeleteDoctor(id int) error {
 	for i, value := range DoctorList {
 		if value.Id == id {

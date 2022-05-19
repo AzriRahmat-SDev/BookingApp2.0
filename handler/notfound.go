@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+//NotFound redirects the user to a 404 page
 func NotFound(w http.ResponseWriter, r *http.Request) {
 	var user database.User
 	if o := getUser(r); o != nil {

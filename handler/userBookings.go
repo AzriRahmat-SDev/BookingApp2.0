@@ -9,6 +9,8 @@ import (
 	"strconv"
 )
 
+//CurrentBookings handles the bookings of existing users
+//and updates it based on the necessary use case
 func CurrentBookings(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	user := getUser(r)

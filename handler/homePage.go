@@ -10,6 +10,7 @@ import (
 	"strconv"
 )
 
+//Homepage is handler that handle booking date and also logins of existing users
 func HomePage(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["doctors"] = database.DoctorList

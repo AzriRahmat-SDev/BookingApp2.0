@@ -17,6 +17,7 @@ type Booking struct {
 var BookingList map[int]Booking
 var BookingId int
 
+//Initialize current existing bookings
 func init() {
 	BookingList = make(map[int]Booking)
 	list := []Booking{
@@ -31,6 +32,7 @@ func init() {
 
 }
 
+//Checks if the booking is available on a selected day
 func BookingIsAvail(doctorId int, date string) bool {
 	for _, value := range BookingList {
 		if value.DoctorId == doctorId && value.Date == date {
@@ -40,6 +42,7 @@ func BookingIsAvail(doctorId int, date string) bool {
 	return true
 }
 
+//Add new bookings
 func NewBooking(value Booking) int {
 	BookingId++
 	value.BookingId = BookingId
@@ -47,6 +50,7 @@ func NewBooking(value Booking) int {
 	return BookingId
 }
 
+//Get Doctor by name
 func (b *Booking) GetDoctorName() string {
 	return GetDoctorById(b.DoctorId).Name
 }
