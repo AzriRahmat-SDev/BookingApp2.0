@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"GoInActionAssignment/internal/database"
-	"GoInActionAssignment/internal/form"
-	"GoInActionAssignment/internal/render"
+	"GoInActionAssignment/database"
+	"GoInActionAssignment/form"
+	"GoInActionAssignment/render"
 	"fmt"
 	"log"
 	"net/http"
@@ -26,7 +26,9 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 				log.Println("Home: ", err)
 			}
 			date := r.PostFormValue(fmt.Sprintf("date%d", doctorId))
-			//checks validity of date selected with the current date and if the response is false (from BookingDate handler), it will create a error msg
+			//checks validity of date selected with the current date and if the
+			//response is false (from BookingDate handler)
+			//it will create a error msg
 			//notifying the user that the date selected is not a valid date
 			if !database.BookingDateHandler(date) {
 				form := form.New(r.Form)

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"GoInActionAssignment/internal/database"
+	"GoInActionAssignment/database"
 	"fmt"
 	"net/http"
 	"time"

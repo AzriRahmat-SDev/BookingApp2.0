@@ -1,7 +1,7 @@
 package main
 
 import (
-	"GoInActionAssignment/internal/handler"
+	"GoInActionAssignment/handler"
 	"net/http"
 )
 

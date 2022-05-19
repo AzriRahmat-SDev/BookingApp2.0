@@ -1,7 +1,7 @@
 package render
 
 import (
-	"GoInActionAssignment/internal/form"
+	"GoInActionAssignment/form"
 	"fmt"
 	"html/template"
 	"log"

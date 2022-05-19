@@ -1,7 +1,7 @@
 package form
 
 import (
-	"GoInActionAssignment/internal/database"
+	"GoInActionAssignment/database"
 	"fmt"
 	"net/url"
 	"regexp"
@@ -43,7 +43,7 @@ func (f *Form) Required(fields ...string) {
 		value := f.Get(fields[i])
 		if i == 0 || i == 1 {
 			if len(value) > 0 && len(value) < 40 && re.MatchString(value) {
-				return
+
 			} else {
 				f.Errors.Add(fields[i], fmt.Sprintf("%s should not be empty", fields[i]))
 			}
@@ -60,8 +60,13 @@ func (f *Form) Required(fields ...string) {
 	}
 }
 
+//Valid returns true if an
+//error message added to the Form struct
 func (f *Form) Valid() bool {
-	return len(f.Errors) == 0
+	if len(f.Errors) == 0 {
+		return true
+	}
+	return false
 }
 
 //Check if User entered an Existing user

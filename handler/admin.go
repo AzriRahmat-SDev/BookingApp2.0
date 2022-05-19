@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"GoInActionAssignment/internal/database"
-	"GoInActionAssignment/internal/render"
+	"GoInActionAssignment/database"
+	"GoInActionAssignment/render"
 	"fmt"
 	"log"
 	"net/http"

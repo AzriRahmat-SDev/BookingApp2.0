@@ -39,6 +39,7 @@ func GetDoctorById(ID int) *Doctor {
 	return nil
 }
 
+//AddDoctor doe this and this
 func AddDoctor(value *Doctor) {
 	value.Id = incrementDoctor()
 	DoctorList = append(DoctorList, value)

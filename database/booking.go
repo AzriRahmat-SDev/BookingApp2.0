@@ -1,3 +1,6 @@
+//Package database provide the necessary initialization of data,
+//adding, deleting and input validation checks needed by the handler functions
+//in the handler package.
 package database
 
 import "time"

@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"GoInActionAssignment/internal/database"
-	"GoInActionAssignment/internal/form"
-	"GoInActionAssignment/internal/render"
+	"GoInActionAssignment/database"
+	"GoInActionAssignment/form"
+	"GoInActionAssignment/render"
 	"log"
 	"net/http"
 

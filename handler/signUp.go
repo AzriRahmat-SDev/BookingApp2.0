@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"GoInActionAssignment/internal/database"
-	"GoInActionAssignment/internal/form"
-	"GoInActionAssignment/internal/render"
+	"GoInActionAssignment/database"
+	"GoInActionAssignment/form"
+	"GoInActionAssignment/render"
 	"log"
 	"net/http"
 )
@@ -39,7 +39,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 
 		if !form.Valid() {
 			data := make(map[string]interface{})
-			data["register"] = newUser
+			data["signup"] = newUser
 			if err := render.Template(w, r, "signup.page.html", &render.TemplateData{
 				Data: data,
 				Form: form,
@@ -53,7 +53,6 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		}
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
-
 	}
 
 	if err := render.Template(w, r, "signup.page.html", &render.TemplateData{
